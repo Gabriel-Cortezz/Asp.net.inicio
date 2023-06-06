@@ -22,10 +22,7 @@ namespace WebApplication2.Controllers
         }
 
         // GET: Produtos/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+        
 
         // GET: Produtos/Create
         public ActionResult Create()
