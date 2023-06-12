@@ -18,6 +18,8 @@ namespace WebApplication2.Controllers
             h.fabricantes = context.Fabricantes.OrderBy(c => c.Nome);
             h.categorias = context.Categorias.OrderBy(c => c.Nome);
 
+
+
             return View(h);
         }
     }
