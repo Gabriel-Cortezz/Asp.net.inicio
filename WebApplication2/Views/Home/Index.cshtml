@@ -20,7 +20,7 @@
                 {
                 <td>
                     @Html.DisplayFor(modelItem => item.Nome)
-                    @Html.ActionLink("Acesser produtos", "Especifica os produtos de Fabricante", "Fabricante")
+                    @Html.ActionLink(" (Produtos)", "IndexComProdutosdoFabricante", "Homes", new { id = item.FabricanteId, tipo = true }, null)
                 </td>
                 }
             </tr>
@@ -42,10 +42,27 @@
                 {
                     <td>
                         @Html.DisplayFor(modelItem => item.Nome)
-                        @Html.ActionLink("Acesser produtos", "Especifica os produtos de Categoria", "Categoria")
+                        @Html.ActionLink(" (Produtos)", "IndexComProdutosdoFabricante", "Homes", new { id = item.CategoriaId, tipo = false }, null)
                     </td>
                 }
             </tr>
+        </tbody>
+       </table>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Produtos</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.produtos)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>
