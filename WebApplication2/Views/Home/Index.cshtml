@@ -18,16 +18,17 @@
             <tr>
                 @foreach (var item in Model.fabricantes)
                 {
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nome);
-                    </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                    @Html.ActionLink("Acesser produtos", "Especifica os produtos de Fabricante", "Fabricante")
+                </td>
                 }
             </tr>
         </tbody>
     </table>
 </div>
 <div>
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th>
@@ -41,6 +42,7 @@
                 {
                     <td>
                         @Html.DisplayFor(modelItem => item.Nome)
+                        @Html.ActionLink("Acesser produtos", "Especifica os produtos de Categoria", "Categoria")
                     </td>
                 }
             </tr>
