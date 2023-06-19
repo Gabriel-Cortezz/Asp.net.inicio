@@ -17,6 +17,7 @@ namespace WebApplication2.Controllers
 
             h.fabricantes = context.Fabricantes.OrderBy(c => c.Nome);
             h.categorias = context.Categorias.OrderBy(c => c.Nome);
+            h.produtos = context.Produtos.OrderBy(x => x.Nome);
 
 
 

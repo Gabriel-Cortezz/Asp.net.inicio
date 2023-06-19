@@ -12,7 +12,7 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th>Empresa</th>
+                    <th>Fabricante</th>
                 </tr>
             </thead>
             <tbody style="display: flex; flex-wrap: wrap;">
@@ -22,7 +22,7 @@
                         <td>
 
                             @Html.DisplayFor(modelItem => item.Nome)
-                            @Html.ActionLink(" (Produtos)", "IndexComProdutosdoFabricante", "Homes", new { id = item.FabricanteId, tipo = true }, null)
+                            @Html.ActionLink(" (Produtos)", "IndexComProdutosdoFabricante", "Home", new { id = item.FabricanteId, tipo = true }, null)
                         </td>
                     </tr>
                 }
@@ -31,7 +31,7 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th>Genêros</th>
+                    <th>Categorias</th>
                 </tr>
             </thead>
             <tbody style="display: flex; flex-wrap: wrap;">
@@ -40,7 +40,7 @@
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.Nome)
-                            @Html.ActionLink(" (Produtos)", "IndexComProdutosdoFabricante", "Homes", new { id = item.CategoriaId, tipo = false }, null)
+                            @Html.ActionLink(" (Produtos)", "IndexComProdutosdoFabricante", "Home", new { id = item.CategoriaId, tipo = false }, null)
 
                         </td>
                     </tr>
@@ -50,7 +50,7 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th>Jogos</th>
+                    <th>Produtos</th>
                 </tr>
             </thead>
             <tbody style="display: flex; flex-wrap: wrap;">
