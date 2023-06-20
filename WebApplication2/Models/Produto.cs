@@ -17,5 +17,11 @@ namespace WebApplication2.Models
         public Categoria Categoria { get; set; }
         public Fabricante Fabricante { get; set; }
 
+
+        public string LogotipoMimeType { get; set; }
+        public byte[] Logotipo { get; set; } // coleta os dados da img informada
+        public string NomeArquivo { get; set; }
+        public long TamanhoArquivo { get; set; }
+
     }
 }

@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebApplication2.Models;
 using System.Data.Entity;
 using System.Net;
+using WebApplication2.Models;
 
-namespace WebApplication2.Controllers
+namespace WebApp.Controllers
 {
     public class ProdutosController : Controller
     {
-        private EFContext context = new EFContext(); // pra chama o banco de dados
+
+        private EFContext context = new EFContext();
         // GET: Produtos
         public ActionResult Index()
         {
@@ -22,7 +23,20 @@ namespace WebApplication2.Controllers
         }
 
         // GET: Produtos/Details/5
-        
+        public ActionResult Details(long? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Produto produto = context.Produtos.Where(p => p.ProdutoId == id).
+            Include(c => c.Categoria).Include(f => f.Fabricante).First();
+            if (produto == null)
+            {
+                return HttpNotFound();
+            }
+            return View(produto);
+        }
 
         // GET: Produtos/Create
         public ActionResult Create()
@@ -31,7 +45,6 @@ namespace WebApplication2.Controllers
             "CategoriaId", "Nome");
             ViewBag.FabricanteId = new SelectList(context.Fabricantes.OrderBy(b => b.Nome),
             "FabricanteId", "Nome");
-
             return View();
         }
 
@@ -44,12 +57,11 @@ namespace WebApplication2.Controllers
                 // TODO: Add insert logic here
                 context.Produtos.Add(produto);
                 context.SaveChanges();
-
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(produto);
             }
         }
 
@@ -71,47 +83,110 @@ namespace WebApplication2.Controllers
             "Nome", produto.FabricanteId);
             return View(produto);
         }
+        public Produto ObterProdutoPorId(long id)
+        {
+            return context.Produtos.Where(p => p.ProdutoId == id).Include(c => c.Categoria).Include(f => f.Fabricante).First();
+        }
+        public void GravarProduto(Produto produto)
+        {
+            if (produto.ProdutoId == null)
+            {
+                context.Produtos.Add(produto);
+            }
+            else
+            {
+                context.Entry(produto).State = EntityState.Modified;
+            }
+            context.SaveChanges();
+        }
 
-        // POST: Produtos/Edit/5
-        [HttpPost]
-        public ActionResult Edit(Produto produto)
+        // Metodo Privado
+        private ActionResult PopularViewBag(Produto produto = null)
+        {
+            ViewBag.CategoriaId = new SelectList(context.Categorias.OrderBy(b => b.Nome), "CategoriaId",
+   "Nome", produto.CategoriaId);
+            ViewBag.FabricanteId = new SelectList(context.Fabricantes.OrderBy(b => b.Nome), "FabricanteId",
+            "Nome", produto.FabricanteId);
+            return View(produto);
+        }
+        private byte[] SetLogotipo(HttpPostedFileBase logotipo)
+        {
+            var bytesLogotipo = new byte[logotipo.ContentLength];
+            logotipo.InputStream.Read(bytesLogotipo, 0, logotipo.ContentLength);
+            return bytesLogotipo;
+        }
+
+        public FileContentResult GetLogotipo(long id)
+        {
+            Produto produto = ObterProdutoPorId(id);
+            if (produto != null)
+            {
+                return File(produto.Logotipo, produto.LogotipoMimeType);
+            }
+            return null;
+        }
+
+        private ActionResult GravarProduto(Produto produto,
+HttpPostedFileBase logotipo, string chkRemoverImagem)
         {
             try
             {
-                // TODO: Add update logic here
-                context.Entry(produto).State = EntityState.Modified;
-                context.SaveChanges();
-
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    if (chkRemoverImagem != null)
+                    {
+                        produto.Logotipo = null;
+                    }
+                    if (logotipo != null)
+                    {
+                        produto.LogotipoMimeType = logotipo.ContentType;
+                        produto.Logotipo = SetLogotipo(logotipo);
+                        produto.NomeArquivo = logotipo.FileName;
+                        produto.TamanhoArquivo = logotipo.ContentLength;
+                    }
+                    GravarProduto(produto);
+                    return RedirectToAction("Index");
+                }
+                PopularViewBag(produto);
+                return View(produto);
             }
             catch
             {
-                return View();
+                PopularViewBag(produto);
+                return View(produto);
             }
         }
 
-        // GET: Produtos/Details/5
-        public ActionResult Details(long? id)
+        // POST: Produtos/Edit/5
+        [HttpPost]
+        public ActionResult Edit(Produto produto,
+HttpPostedFileBase logotipo = null, string chkRemoverImagem = null)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Produto produto = context.Produtos.Where(p => p.ProdutoId == id).Include(c => c.Categoria).Include(f => f.Fabricante).First();
-            if (produto == null)
-            {
-                return HttpNotFound();
-            }
-            return View(produto);
+            return GravarProduto(produto, logotipo, chkRemoverImagem);
+            //try
+            //{
+            //    if (ModelState.IsValid)
+            //    {
+            //        context.Entry(produto).State = EntityState.Modified;
+            //        context.SaveChanges();
+            //        return RedirectToAction("Index");
+            //    }
+            //    return View(produto);
+            //}
+            //catch
+            //{
+            //    return View(produto);
+            //}
         }
-
+        // GET: Produtos/Delete/5
         public ActionResult Delete(long? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Produto produto = context.Produtos.Where(p => p.ProdutoId == id).Include(c => c.Categoria).Include(f => f.Fabricante).First();
+            Produto produto = context.Produtos.Where(p => p.ProdutoId == id).
+            Include(c => c.Categoria).Include(f => f.Fabricante).First();
             if (produto == null)
             {
                 return HttpNotFound();
@@ -119,11 +194,9 @@ namespace WebApplication2.Controllers
             return View(produto);
         }
 
-
-
         // POST: Produtos/Delete/5
         [HttpPost]
-        public ActionResult Delete(long id)
+        public ActionResult Delete(int id, FormCollection collection)
         {
             try
             {
