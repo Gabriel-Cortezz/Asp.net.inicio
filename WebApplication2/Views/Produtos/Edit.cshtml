@@ -53,9 +53,11 @@ new { enctype = "multipart/form-data" }))
 						new { @class = "text-danger" })
 					</div>
 				</div>
-				@Html.HiddenFor(model => model.ProdutoId)
 				@Html.HiddenFor(model => model.LogotipoMimeType)
 				@Html.HiddenFor(model => model.Logotipo)
+				@Html.HiddenFor(model => model.NomeArquivo)
+				@Html.HiddenFor(model => model.TamanhoArquivo)
+
 				<div class="col-md-offset-7 col-md-5">
 					<div class="form-group">
 						@Html.TextBox("logotipo", "", new { type = "file" }) <br />
@@ -73,6 +75,7 @@ new { enctype = "multipart/form-data" }))
 								<img class="img-thumbnail"
 									 src="@Url.Action("GetLogotipo", "Produtos",new { id = Model.ProdutoId })"
 									 style="display:block;margin-left:auto; margin-right:auto;" />
+								@Html.ActionLink("Baixar o arquivo : " + Model.NomeArquivo, "DownloadArquivo", "Produtos", new { area = "Cadastros", id = Model.ProdutoId }, null)
 							</div>
 							<div class="panel-footer">
 								<div class="checkbox">

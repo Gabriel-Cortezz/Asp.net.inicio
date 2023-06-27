@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Data.Entity;
 using System.Net;
 using WebApplication2.Models;
+using System.IO;
 
 namespace WebApp.Controllers
 {
@@ -83,6 +84,7 @@ namespace WebApp.Controllers
             "Nome", produto.FabricanteId);
             return View(produto);
         }
+
         public Produto ObterProdutoPorId(long id)
         {
             return context.Produtos.Where(p => p.ProdutoId == id).Include(c => c.Categoria).Include(f => f.Fabricante).First();
@@ -121,7 +123,10 @@ namespace WebApp.Controllers
             Produto produto = ObterProdutoPorId(id);
             if (produto != null)
             {
-                return File(produto.Logotipo, produto.LogotipoMimeType);
+                if (produto.Logotipo != null)
+                    return File(produto.Logotipo, produto.LogotipoMimeType);
+                else
+                    return null;
             }
             return null;
         }
@@ -141,8 +146,13 @@ HttpPostedFileBase logotipo, string chkRemoverImagem)
                     {
                         produto.LogotipoMimeType = logotipo.ContentType;
                         produto.Logotipo = SetLogotipo(logotipo);
+
                         produto.NomeArquivo = logotipo.FileName;
                         produto.TamanhoArquivo = logotipo.ContentLength;
+
+                        string strFileName = Server.MapPath("~/App_Data/") + Path.GetFileName(logotipo.FileName);
+
+                        logotipo.SaveAs(strFileName);
                     }
                     GravarProduto(produto);
                     return RedirectToAction("Index");
@@ -155,6 +165,18 @@ HttpPostedFileBase logotipo, string chkRemoverImagem)
                 PopularViewBag(produto);
                 return View(produto);
             }
+        }
+
+        public ActionResult DownloadArquivo(long id)
+        {
+            Produto produto = ObterProdutoPorId(id);
+            FileStream fileStream = new FileStream(Server.MapPath(
+            "~/App_Data/" + produto.NomeArquivo), FileMode.Create,
+            FileAccess.Write);
+            fileStream.Write(produto.Logotipo, 0,
+            Convert.ToInt32(produto.TamanhoArquivo));
+            fileStream.Close();
+            return File(fileStream.Name, produto.LogotipoMimeType, produto.NomeArquivo);
         }
 
         // POST: Produtos/Edit/5
