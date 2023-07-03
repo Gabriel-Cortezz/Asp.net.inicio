@@ -5,8 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 using System.Net;
-using WebApplication2.Models;
 using System.IO;
+using Modelo.Cadastros;
+using WebApplication2.Models;
 
 namespace WebApp.Controllers
 {
