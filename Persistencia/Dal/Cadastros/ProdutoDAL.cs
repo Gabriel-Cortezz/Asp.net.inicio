@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia.Dal.Cadastros
 {
-    class ProdutoDAL
+    public class ProdutoDAL
     {
         private EFContext context = new EFContext();
 
