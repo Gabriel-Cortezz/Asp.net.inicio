@@ -10,7 +10,7 @@ namespace WebApplication2.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            ContextKey = "Persistencia.Contexts.EFContext";
+            ContextKey = "WebApplication2.Models.EFContext";
         }
 
         protected override void Seed(WebApplication2.Models.EFContext context)
