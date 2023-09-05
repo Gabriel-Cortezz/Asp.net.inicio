@@ -6,15 +6,16 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
+using WebApplication2.Migrations;
 
 namespace WebApplication2.Models
 {
     public class EFContext : DbContext
     {
         public EFContext() : base("Asp_Net_MVC_CS") {
-        //Database.SetInitializer<EFContext>(new
-        //MigrateDatabaseToLatestVersion<EFContext,Configuration>());
-}
+            Database.SetInitializer<EFContext>(new
+            MigrateDatabaseToLatestVersion<EFContext, Configuration>());
+        }
         public DbSet<Categoria> Categorias { get; set; } // criar uma tabela com base na Categoria
         public DbSet<Fabricante> Fabricantes { get; set; }
 

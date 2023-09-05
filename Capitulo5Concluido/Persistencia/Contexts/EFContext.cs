@@ -1,5 +1,6 @@
 ﻿using Modelo.Cadastros;
 using Modelo.Tabelas;
+using Persistencia.Migrations;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -12,6 +13,8 @@ namespace Persistencia.Contexts
     public class EFContext : DbContext
     {
         public EFContext() : base("Asp_Net_MVC_CS") {
+            Database.SetInitializer<EFContext>(new
+            MigrateDatabaseToLatestVersion<EFContext, Configuration>());
         } 
         public DbSet<Categoria> Categorias { get; set; } // criar uma tabela com base na Categoria
         public DbSet<Fabricante> Fabricantes { get; set; }

@@ -10,6 +10,7 @@ namespace WebApplication2.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
             ContextKey = "WebApplication2.Models.EFContext";
         }
 

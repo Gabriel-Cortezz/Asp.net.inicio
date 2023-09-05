@@ -19,10 +19,9 @@ namespace WebApplication2.Controllers
             h.categorias = context.Categorias.OrderBy(c => c.Nome);
             h.produtos = context.Produtos.OrderBy(x => x.Nome);
 
-
-
             return View(h);
         }
+
         public ActionResult IndexComProdutosdoFabricante(long? id, bool tipo)
         {
             Home h = new Home();
