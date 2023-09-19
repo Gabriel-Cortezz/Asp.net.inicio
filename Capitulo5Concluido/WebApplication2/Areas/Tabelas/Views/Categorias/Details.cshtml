@@ -8,9 +8,9 @@
     <div class="panel-heading">
         Visualizando detalhes de um categoria
     </div>
-	<div class="panel-body">
-		@Html.Partial("~/Areas/Tabelas/Views/Categorias/_PartialDetailsContentPanel_Categoria.cshtml", Model)
-	</div>
+    <div class="panel-body">
+        @Html.Partial("~/Areas/Tabelas/Views/Categorias/_PartialDetailsContentPanel_Categoria.cshtml", Model)
+    </div>
     <div class="panel-footer panel-info">
         @Html.ActionLink("Alterar", "Edit", new { id = Model.CategoriaId },
         new { @class = "btn btn-info" })
@@ -18,4 +18,4 @@
         new { @class = "btn btn-info" })
     </div>
 </div>
-@Html.Partial("~/Views/Produtos/_PorFabricante.cshtml", Model.Produtos.ToList())
+@Html.Partial("~/Areas/Tabelas/Views/Produtos/_PorFabricante.cshtml", Model.Produtos.ToList())

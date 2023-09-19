@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebApplication2.Models;
 
-namespace WebApplication2.Controllers
+namespace WebApplication2.Areas.Tabelas.Controllers
 {
     public class CategoriasController : Controller
     {

@@ -1,16 +1,15 @@
-﻿@model Modelo.Tabelas.Categoria
+﻿@model Modelo.Cadastros.Fabricante
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Registrando uma Nova Categoria";
+    ViewBag.Title = "Registrando um NOVO FABRICANTE";
 }
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     <div class="panel panel-primary">
         <div class="panel-heading">
-            Registro de um NOVO Categoria
+            Registro de um NOVO FABRICANTE
         </div>
         <div class="panel-body">
             <div class="form-horizontal">
@@ -34,16 +33,13 @@
         </div>
         <div class="panel-footer panel-info">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Adicionar Categoria" class="btn btn-danger" />
-                @Html.ActionLink("Retornar para a listagem de Categoria", "Index", null,
+                <input type="submit" value="Adicionar Fabricante" class="btn btn-danger" />
+                @Html.ActionLink("Retornar para a listagem de FABRICANTES", "Index", null,
                 new { @class = "btn btn-warning" })
             </div>
             <br />
             <br />
         </div>
-    </div>
-    <div class="panel-body">
-        @Html.Partial("~/Areas/Tabelas/Views/Produtos/_PartialDetailsContentPanel.cshtml", Model)
     </div>
 }
 @section ScriptPage {
